@@ -1,5 +1,7 @@
-﻿namespace Persons.Cmd.Api.Commands;
+﻿using CQRS.Core.Commands;
 
-public class RemoveIdentityDocumentCommand {
-    public Guid Id { get; set; }
+namespace Persons.Cmd.Api.Commands;
+
+public class RemoveIdentityDocumentCommand : BaseCommand {
+    public Guid IdentityId { get; set; }
 }

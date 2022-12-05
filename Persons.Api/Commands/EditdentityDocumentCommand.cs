@@ -1,5 +1,7 @@
-﻿namespace Persons.Cmd.Api.Commands;
+﻿using CQRS.Core.Commands;
 
-public class AddIdentityDocumentCommand {
+namespace Persons.Cmd.Api.Commands;
+
+public class AddIdentityDocumentCommand : BaseCommand {
     public string IdentityDocument { get; set; }
 }
