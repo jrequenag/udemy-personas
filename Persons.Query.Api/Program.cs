@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 
+using Persons.Query.Domain.Repositories;
 using Persons.Query.Infrastructure.DataAccess;
+using Persons.Query.Infrastructure.Handlers;
+using Persons.Query.Infrastructure.repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,10 @@ builder.Services.AddSingleton<DatabaseContextFactory>(new DatabaseContextFactory
 
 var databaseContext = builder.Services.BuildServiceProvider().GetService<DatabaseContext>();
 databaseContext.Database.EnsureCreated();
+
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+builder.Services.AddScoped<IDocumentIdentityRepository, DocumentIdentityRepository>();
+builder.Services.AddScoped<IEventHandler, Persons.Query.Infrastructure.Handlers.EventHandler>();
 
 
 builder.Services.AddControllers();

@@ -5,10 +5,10 @@ using Persons.Query.Domain.Repositories;
 using Persons.Query.Infrastructure.DataAccess;
 
 namespace Persons.Query.Infrastructure.repositories;
-public class IdentityDocumentRepository : IDocumentIdentityRepository {
+public class DocumentIdentityRepository : IDocumentIdentityRepository {
     private readonly DatabaseContextFactory _databaseContext;
 
-    public IdentityDocumentRepository(DatabaseContextFactory databaseContext) {
+    public DocumentIdentityRepository(DatabaseContextFactory databaseContext) {
         _databaseContext = databaseContext;
     }
 
