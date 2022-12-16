@@ -6,12 +6,6 @@ using CQRS.Core.Producers;
 
 using Persons.Cmd.Domain.Aggregates;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Persons.Cmd.Infratrusture.Stores;
 public class EventStore : IEventStore {
     private readonly IEventStoreRepository _eventStoreRepository;
@@ -33,7 +27,7 @@ public class EventStore : IEventStore {
 
     public async Task SaveEvenrtAsync(Guid aggregateId, IEnumerable<BaseEvent> events, int expectedVersion) {
         var eventStream = await _eventStoreRepository.FindByAggregateId(aggregateId);
-        if(expectedVersion != 1 && eventStream[^1].Version != expectedVersion)
+        if(expectedVersion != 1 && eventStream.Count > 0 && eventStream[^1].Version != expectedVersion)
             throw new ConcurrencyException();
 
         var version = expectedVersion;
@@ -45,7 +39,8 @@ public class EventStore : IEventStore {
                 TimeStamp = DateTime.UtcNow,
                 AggregateIdentifier = aggregateId,
                 AggregateType = nameof(PersonAggregate),
-                EventData = @event
+                EventData = @event,
+                Version = version,
             };
 
             await _eventStoreRepository.SaveAsync(eventModel);

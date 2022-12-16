@@ -32,14 +32,14 @@ public class CommandHandler : ICommandHandler {
 
     public async Task HandlerAsync(EditdentityDocumentCommand command) {
         var aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
-        aggregate.EditIdentityDocument(command.IdentityId, command.IdentityDocument);
+        aggregate.EditIdentityDocument(command.Id, command.IdentityDocumentId, command.IdentityDocument);
         await _eventSourcingHandler.SaveAsync(aggregate);
     }
 
 
 
     public async Task HandlerAsync(RemoveIdentityDocumentCommand command) {
-        var aggregate = await _eventSourcingHandler.GetByIdAsync(command.IdentityId);
+        var aggregate = await _eventSourcingHandler.GetByIdAsync(command.Id);
         aggregate.RemoveIdentityDocument(command.IdentityId);
 
         await _eventSourcingHandler.SaveAsync(aggregate);

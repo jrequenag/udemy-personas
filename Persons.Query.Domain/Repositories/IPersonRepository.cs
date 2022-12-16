@@ -1,11 +1,5 @@
 ﻿using Persons.Query.Domain.Entities;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Persons.Query.Domain.Repositories;
 public interface IPersonRepository {
     Task CreateAsync(PersonEntity person);
@@ -16,4 +10,3 @@ public interface IPersonRepository {
     Task<List<PersonEntity>> GetByPersonName(string name);
     Task<List<PersonEntity>> listWithDocumentIdentity();
 }
- 

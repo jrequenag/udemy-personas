@@ -2,13 +2,6 @@
 
 using Person.Common.Events;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
 namespace Persons.Cmd.Domain.Aggregates;
 public class PersonAggregate : AggregateRoot {
     private bool _active;
@@ -55,6 +48,7 @@ public class PersonAggregate : AggregateRoot {
             throw new InvalidOperationException($"el valor de {nameof(motherLastName)}, no puede ser nulo o vacio, por favor provea un valor valido");
 
         RaiseEvent(new PersonUpdatedEvent() {
+            Id = Id,
             FirstName = firstName,
             MiddleName = middleName,
             LastName = lastName,
@@ -80,12 +74,12 @@ public class PersonAggregate : AggregateRoot {
         _identityDocuments.Add(@event.IdentityId, @event.IdentityDocument);
     }
 
-    public void EditIdentityDocument(Guid identityDocumentId, string IdentityDocument) {
+    public void EditIdentityDocument(Guid id, Guid identityDocumentId, string IdentityDocument) {
         if(!_active)
             throw new InvalidOperationException("no puede editar una persona inactiva");
         RaiseEvent(new IdentityDocumentUpdateEvent() {
-            Id = _id,
-            IdentityId = Guid.NewGuid(),
+            Id = id,
+            IdentityId = identityDocumentId,
             IdentityDocument = IdentityDocument
         });
     }

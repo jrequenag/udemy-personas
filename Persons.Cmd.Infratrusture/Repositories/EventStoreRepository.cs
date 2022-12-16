@@ -7,12 +7,6 @@ using MongoDB.Driver;
 
 using Persons.Cmd.Infratrusture.Config;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Persons.Cmd.Infratrusture.Repositories;
 public class EventStoreRepository : IEventStoreRepository {
     private readonly IMongoCollection<EventModel> _eventStoreCollection;

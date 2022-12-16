@@ -2,8 +2,7 @@
 
 namespace Persons.Cmd.Api.Commands;
 
-public class EditdentityDocumentCommand : BaseCommand {
-    public Guid IdentityId { get; set; }
+public class AddIdentityDocumentCommand : BaseCommand {
     public string IdentityDocument { get; set; }
 
 }

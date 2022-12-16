@@ -4,12 +4,6 @@ using CQRS.Core.Infrastructure;
 
 using Persons.Cmd.Domain.Aggregates;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Persons.Cmd.Infratrusture.Handlers;
 public class EventSourcingHandler : IEventSourcingHandler<PersonAggregate> {
     private readonly IEventStore _eventStore;

@@ -1,20 +1,13 @@
-﻿using CQRS.Core.Events;
+﻿using CQRS.Core.Config;
+using CQRS.Core.Events;
 using CQRS.Core.Producers;
 
 using Microsoft.Extensions.Options;
 
-using MongoDB.Bson.IO;
-
-using Persons.Cmd.Infratrusture.Config;
-
 using RabbitMQ.Client;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Persons.Cmd.Infratrusture.Producers;
 public class EventProducer : IEventProducer {
@@ -29,12 +22,14 @@ public class EventProducer : IEventProducer {
         };
     }
     public Task ProducerAsync<T>(string topic, T @event) where T : BaseEvent {
-        var connection = ConnectionFactory.CreateConnection();
+        using var connection = ConnectionFactory.CreateConnection();
         using var channel = connection.CreateModel();
-        channel.QueueDeclare(topic);
+        var eventName = "persons";
+
+        channel.QueueDeclare(eventName, false, false, false, null);
         var json = JsonSerializer.Serialize(@event, @event.GetType());
         var body = Encoding.UTF8.GetBytes(json);
-        channel.BasicPublish(exchange: "", routingKey: "persons", body: body);
+        channel.BasicPublish("", eventName, null, body);
         return Task.CompletedTask;
     }
 }

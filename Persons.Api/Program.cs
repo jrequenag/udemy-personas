@@ -1,9 +1,13 @@
+using CQRS.Core.Config;
 using CQRS.Core.Domain;
+using CQRS.Core.Events;
 using CQRS.Core.Handlers;
 using CQRS.Core.Infrastructure;
 using CQRS.Core.Producers;
 
-using Microsoft.Extensions.Configuration;
+using MongoDB.Bson.Serialization;
+
+using Person.Common.Events;
 
 using Persons.Cmd.Api.Commands;
 using Persons.Cmd.Domain.Aggregates;
@@ -15,6 +19,15 @@ using Persons.Cmd.Infratrusture.Repositories;
 using Persons.Cmd.Infratrusture.Stores;
 
 var builder = WebApplication.CreateBuilder(args);
+
+BsonClassMap.RegisterClassMap<BaseEvent>();
+BsonClassMap.RegisterClassMap<PersonCreatedEvent>();
+BsonClassMap.RegisterClassMap<PersonUpdatedEvent>();
+BsonClassMap.RegisterClassMap<PersonDeletedEvent>();
+BsonClassMap.RegisterClassMap<IdentityDocumentAddedEvent>();
+BsonClassMap.RegisterClassMap<IdentityDocumentRemovedEvent>();
+BsonClassMap.RegisterClassMap<IdentityDocumentUpdateEvent>();
+
 
 builder.Services.Configure<MongoDbConfig>(builder.Configuration.GetSection(nameof(MongoDbConfig)));
 builder.Services.Configure<RabbitMqConfigParams>(builder.Configuration.GetSection(nameof(RabbitMqConfigParams)));
